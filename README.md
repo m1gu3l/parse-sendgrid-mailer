@@ -26,3 +26,10 @@ mailer
   });
 
 ```
+### How to get file buffer?
+```
+Parse.Cloud.httpRequest('http://domain.net/assets/file.zip')
+  .then(function(httpResponse) {
+    httpResponse.buffer // <---- file contents here
+  });
+```
