@@ -1,5 +1,5 @@
 # parse-sendgrid-mailer
-Parse.com Cloud Code module
+Parse.com Cloud Code module for sending emails using SendGrid API
 
 ### Features
 * easy-to-use chainable API
