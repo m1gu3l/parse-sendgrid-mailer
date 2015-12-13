@@ -22,6 +22,18 @@ SendGridEmail.prototype.property = function(key, value) {
     return this;
 }
 
+SendGridEmail.prototype.jsonProperty = function(key, value) {
+    this._buffers.push(
+        new Buffer(
+            '--' + boundary + '\n' +
+            'Content-Disposition: form-data; name="' + key +'"\n' +
+            'Content-Type: ' + 'text/json' + '\n\n' +
+            JSON.stringify(value) + '\n'
+        )
+    );
+    return this;
+}
+
 SendGridEmail.prototype.attach = function(name, type, buffer) {
     this._buffers.push(
         new Buffer(
