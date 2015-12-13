@@ -26,6 +26,32 @@ mailer
   });
 
 ```
+--- or ---
+```
+mailer
+  .mail()
+  .property('from', 'sender@sender.com')
+  .property('to', 'receiver@receiver.org')
+  .jsonProperty('x-smtpapi', { // https://sendgrid.com/docs/API_Reference/SMTP_API/index.html
+    filters: {
+      templates: {
+        settings: {
+          enable: 1,
+          template_id: ''
+        }
+      }
+    },
+    sub: {
+      '{user_firstname}': 'Receiver',
+      '{user_lastname}': 'Smith',
+      '{user_age}': '28'
+    }
+  })
+  .property('subject', ' ') // subject is required by SendGrid
+  .property('html', ' ') // either text or html is required by SendGrid
+  .send();
+```
+
 ### How to get file buffer?
 ```
 Parse.Cloud.httpRequest('http://domain.net/assets/file.zip')
