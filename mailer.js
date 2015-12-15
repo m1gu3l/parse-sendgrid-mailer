@@ -34,11 +34,18 @@ SendGridEmail.prototype.jsonProperty = function(key, value) {
     return this;
 }
 
-SendGridEmail.prototype.attach = function(name, type, buffer) {
+SendGridEmail.prototype.attach = function(name, type, buffer, cid) {
+    if ('string' === typeof cid) {
+        this._buffers.push(new Buffer(
+            '--' + boundary + '\n' +
+            'Content-Disposition: form-data; name="content[' + name + ']"\n\n' +
+            cid + '\n'
+        ));
+    }
     this._buffers.push(
         new Buffer(
             '--' + boundary + '\n' +
-            'Content-Disposition: form-data; name="files\\[' + name + '\\]"; filename="' + name + '"\n' +
+            'Content-Disposition: form-data; name="files[' + name + ']"; filename="' + name + '"\n' +
             'Content-Type: ' + type + '\n\n'
         )
     );
