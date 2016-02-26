@@ -42,9 +42,9 @@ mailer
       }
     },
     sub: {
-      '{user_firstname}': 'Receiver',
-      '{user_lastname}': 'Smith',
-      '{user_age}': '28'
+      '{user_firstname}': ['Receiver'],
+      '{user_lastname}': ['Smith'],
+      '{user_age}': ['28']
     }
   })
   .property('subject', ' ') // subject is required by SendGrid
