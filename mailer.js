@@ -11,22 +11,22 @@ function SendGridEmail(apiUser, apiKey) {
 
 var boundary = 'UniqueEnoughString';
 
-SendGridEmail.prototype.property = function(key, value) {
+SendGridEmail.prototype.property = function (key, value) {
     this._buffers.push(
         new Buffer(
             '--' + boundary + '\n' +
-            'Content-Disposition: form-data; name="' + key +'"\n\n' +
+            'Content-Disposition: form-data; name="' + key + '"\n\n' +
             value + '\n'
         )
     );
     return this;
 }
 
-SendGridEmail.prototype.jsonProperty = function(key, value) {
+SendGridEmail.prototype.jsonProperty = function (key, value) {
     this._buffers.push(
         new Buffer(
             '--' + boundary + '\n' +
-            'Content-Disposition: form-data; name="' + key +'"\n' +
+            'Content-Disposition: form-data; name="' + key + '"\n' +
             'Content-Type: ' + 'text/json' + '\n\n' +
             JSON.stringify(value) + '\n'
         )
@@ -34,7 +34,7 @@ SendGridEmail.prototype.jsonProperty = function(key, value) {
     return this;
 }
 
-SendGridEmail.prototype.attach = function(name, type, buffer, cid) {
+SendGridEmail.prototype.attach = function (name, type, buffer, cid) {
     if ('string' === typeof cid) {
         this._buffers.push(new Buffer(
             '--' + boundary + '\n' +
@@ -54,8 +54,10 @@ SendGridEmail.prototype.attach = function(name, type, buffer, cid) {
     return this;
 }
 
-SendGridEmail.prototype.send = function() {
-    this._buffers.push( new Buffer('--' + boundary + '--') );
+SendGridEmail.prototype.send = function () {
+    var _this = this;
+    
+    this._buffers.push(new Buffer('--' + boundary + '--'));
 
     return Parse.Cloud.httpRequest({
         url: 'https://api.sendgrid.com/api/mail.send.json',
@@ -63,7 +65,7 @@ SendGridEmail.prototype.send = function() {
         headers: {
             'Content-Type': 'multipart/form-data; boundary=' + boundary
         },
-        body: Buffer.concat(this._buffers)
+        body: Buffer.concat(_this._buffers)
     });
 }
 
@@ -72,7 +74,7 @@ function SendGridMailer(apiUser, apiKey) {
     this.apiKey = apiKey;
 }
 
-SendGridMailer.prototype.mail = function() {
+SendGridMailer.prototype.mail = function () {
     return new SendGridEmail(this.apiUser, this.apiKey);
 }
 
